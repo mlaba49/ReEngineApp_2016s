@@ -1,3 +1,5 @@
+#define _USE_MATH_DEFINES
+#include <math.h>
 #include "MyPrimitive.h"
 MyPrimitive::MyPrimitive() { }
 MyPrimitive::MyPrimitive(const MyPrimitive& other) { }
@@ -29,6 +31,12 @@ void MyPrimitive::AddQuad(vector3 a_vBottomLeft, vector3 a_vBottomRight, vector3
 	AddVertexPosition(a_vTopLeft);
 	AddVertexPosition(a_vBottomRight);
 	AddVertexPosition(a_vTopRight);
+}
+void MyPrimitive::AddTriangle(vector3 a_vBottomLeft, vector3 a_vBottomRight, vector3 a_vTop)
+{
+	AddVertexPosition(a_vBottomLeft);
+	AddVertexPosition(a_vBottomRight);
+	AddVertexPosition(a_vTop);
 }
 void MyPrimitive::GeneratePlane(float a_fSize, vector3 a_v3Color)
 {
@@ -110,16 +118,12 @@ void MyPrimitive::GenerateCone(float a_fRadius, float a_fHeight, int a_nSubdivis
 	Init();
 
 	//Your code starts here
-	float fValue = 0.5f;
-	//3--2
-	//|  |
-	//0--1
-	vector3 point0(-fValue, -fValue, fValue); //0
-	vector3 point1(fValue, -fValue, fValue); //1
-	vector3 point2(fValue, fValue, fValue); //2
-	vector3 point3(-fValue, fValue, fValue); //3
-
-	AddQuad(point0, point1, point3, point2);
+	vector3 topPoint(0, 0, a_fHeight);
+	float angle = (2 * M_PI) / a_nSubdivisions;
+	for (int i = 0; i < a_nSubdivisions; i++)
+	{
+		AddTriangle(vector3(0, 0, 0), vector3(sin(i * angle), cos(i * angle), 0), vector3(sin((i + 1) * angle), cos((i + 1) * angle), 0));
+	}
 
 	//Your code ends here
 	CompileObject(a_v3Color);
