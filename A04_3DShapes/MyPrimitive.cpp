@@ -245,18 +245,26 @@ void MyPrimitive::GenerateSphere(float a_fRadius, int a_nSubdivisions, vector3 a
 	{
 		for (int j = 0; j < a_nSubdivisions; j++)
 		{
-			/*AddQuad(vector3(cos((j + 1) * angle) * cos((i + 1) * angle), sin((j + 1) * angle) * cos((i + 1) * angle), 0),
-				vector3(cos(j * angle) * cos(i * angle), sin(j * angle) * cos(i * angle), 0),
-				vector3(cos((j + 1) * angle) * cos((i + 1) * angle), sin((j + 1) * angle) * cos((i + 1) * angle), sin(i * angle)),
-				vector3(cos(j * angle) * cos(i * angle), sin(j * angle) * cos(i * angle), sin(i * angle)));*/
-			AddQuad(vector3(sin((i + 1) * angle), cos((i + 1) * angle), 0),
+			AddQuad(vector3(cos(j * angle) * cos((i + 1) * angle), sin(j * angle) * cos((i + 1) * angle), sin((i + 1) * angle)),
+				vector3(cos(j * angle) * cos(i * angle), sin(j * angle) * cos(i * angle), sin(i * angle)),
+				vector3(cos((j + 1) * angle) * cos((i + 1) * angle), sin((j + 1) * angle) * cos((i + 1) * angle), sin((i + 1) * angle)),
+				vector3(cos((j + 1) * angle) * cos(i * angle), sin((j + 1) * angle) * cos(i * angle), sin(i * angle)));
+
+			//Alternate failed solution
+			/*AddQuad(vector3(sin((i + 1) * angle), cos((i + 1) * angle), 0),
 				vector3(sin(i * angle), cos(i * angle), 0),
 				vector3(sin((i + 1) * angle), cos((i + 1) * angle), 1),
 				vector3(sin(i * angle), cos(i * angle), 1));
-			AddQuad(vector3(sin(j * angle), -.5, cos(j * angle)),
-				vector3(sin((j + 1) * angle), -.5, cos((j + 1) * angle)),
-				vector3(sin(j * angle), .5, cos(j * angle)),
-				vector3(sin((j + 1) * angle), .5, cos((j + 1) * angle)));
+			AddQuad(vector3(sin(j * angle), -.5, cos(j * angle) + .5),
+				vector3(sin((j + 1) * angle), -.5, cos((j + 1) * angle) + .5),
+				vector3(sin(j * angle), .5, cos(j * angle) + .5),
+				vector3(sin((j + 1) * angle), .5, cos((j + 1) * angle) + .5));
+			AddTriangle(vector3(sin((i + 1) * angle), cos((i + 1) * angle), 1),
+				vector3(sin(i * angle), cos(i * angle), 1), 
+				vector3(sin(j * angle), -.5, cos(j * angle) + .5));
+			AddTriangle(vector3(sin((i + 1) * angle), cos((i + 1) * angle), 0),
+				vector3(sin(i * angle), cos(i * angle), 0),
+				vector3(sin(j * angle), -.5, cos(j * angle) + .5));*/
 		}
 	}
 
