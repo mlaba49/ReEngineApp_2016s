@@ -118,11 +118,12 @@ void MyPrimitive::GenerateCone(float a_fRadius, float a_fHeight, int a_nSubdivis
 	Init();
 
 	//Your code starts here
-	vector3 topPoint(0, 0, a_fHeight);
-	float angle = (2 * M_PI) / a_nSubdivisions;
+	vector3 topPoint(0, 0, a_fHeight); //Top of the cone
+	float angle = (2 * M_PI) / a_nSubdivisions; //Angle of each subdivision
 	for (int i = 0; i < a_nSubdivisions; i++)
 	{
-		AddTriangle(vector3(0, 0, 0), vector3(sin(i * angle), cos(i * angle), 0), vector3(sin((i + 1) * angle), cos((i + 1) * angle), 0));
+		AddTriangle(vector3(0, 0, 0), vector3(sin(i * angle), cos(i * angle), 0), vector3(sin((i + 1) * angle), cos((i + 1) * angle), 0)); //One triangle for the base of the cone...
+		AddTriangle(vector3(sin(i * angle), cos(i * angle), 0), topPoint, vector3(sin((i + 1) * angle), cos((i + 1) * angle), 0)); //...and one for the sides.
 	}
 
 	//Your code ends here
@@ -139,16 +140,17 @@ void MyPrimitive::GenerateCylinder(float a_fRadius, float a_fHeight, int a_nSubd
 	Init();
 
 	//Your code starts here
-	float fValue = 0.5f;
-	//3--2
-	//|  |
-	//0--1
-	vector3 point0(-fValue, -fValue, fValue); //0
-	vector3 point1(fValue, -fValue, fValue); //1
-	vector3 point2(fValue, fValue, fValue); //2
-	vector3 point3(-fValue, fValue, fValue); //3
-
-	AddQuad(point0, point1, point3, point2);
+	
+	float angle = (2 * M_PI) / a_nSubdivisions; //Angle of each subdivision
+	for (int i = 0; i < a_nSubdivisions; i++)
+	{
+		AddTriangle(vector3(0, 0, 0), vector3(a_fRadius * sin(i * angle), a_fRadius * cos(i * angle), 0), vector3(a_fRadius * sin((i + 1) * angle), a_fRadius * cos((i + 1) * angle), 0)); //One triangle for the base of the cylinder...
+		AddTriangle(vector3(0, 0, a_fHeight), vector3(a_fRadius * sin((i + 1) * angle), a_fRadius * cos((i + 1) * angle), a_fHeight), vector3(a_fRadius * sin(i * angle), a_fRadius * cos(i * angle), a_fHeight)); //...one for the top...
+		AddQuad(vector3(a_fRadius * sin((i + 1) * angle), a_fRadius * cos((i + 1) * angle), 0), //...and a quad for the sides.
+			vector3(a_fRadius * sin(i * angle), a_fRadius * cos(i * angle), 0),
+			vector3(a_fRadius * sin((i + 1) * angle), a_fRadius * cos((i + 1) * angle), a_fHeight),
+			vector3(a_fRadius * sin(i * angle), a_fRadius * cos(i * angle), a_fHeight));
+	}
 
 	//Your code ends here
 	CompileObject(a_v3Color);
@@ -164,16 +166,27 @@ void MyPrimitive::GenerateTube(float a_fOuterRadius, float a_fInnerRadius, float
 	Init();
 
 	//Your code starts here
-	float fValue = 0.5f;
-	//3--2
-	//|  |
-	//0--1
-	vector3 point0(-fValue, -fValue, fValue); //0
-	vector3 point1(fValue, -fValue, fValue); //1
-	vector3 point2(fValue, fValue, fValue); //2
-	vector3 point3(-fValue, fValue, fValue); //3
-
-	AddQuad(point0, point1, point3, point2);
+	
+	float angle = (2 * M_PI) / a_nSubdivisions; //Angle of each subdivision
+	for (int i = 0; i < a_nSubdivisions; i++)
+	{
+		AddQuad(vector3(a_fOuterRadius * sin((i + 1) * angle), a_fOuterRadius * cos((i + 1) * angle), 0), //Add a quad for the outer sides...
+			vector3(a_fOuterRadius * sin(i * angle), a_fOuterRadius * cos(i * angle), 0),
+			vector3(a_fOuterRadius * sin((i + 1) * angle), a_fOuterRadius * cos((i + 1) * angle), a_fHeight),
+			vector3(a_fOuterRadius * sin(i * angle), a_fOuterRadius * cos(i * angle), a_fHeight));
+		AddQuad(vector3(a_fInnerRadius * sin(i * angle), a_fInnerRadius * cos(i * angle), 0), //...a quad for the inner sides...
+			vector3(a_fInnerRadius * sin((i + 1) * angle), a_fInnerRadius * cos((i + 1) * angle), 0),
+			vector3(a_fInnerRadius * sin(i * angle), a_fInnerRadius * cos(i * angle), a_fHeight), 
+			vector3(a_fInnerRadius * sin((i + 1) * angle), a_fInnerRadius * cos((i + 1) * angle), a_fHeight));
+		AddQuad(vector3(a_fOuterRadius * sin(i * angle), a_fOuterRadius * cos(i * angle), 0), //...a quad for the bottom...
+			vector3(a_fOuterRadius * sin((i + 1) * angle), a_fOuterRadius * cos((i + 1) * angle), 0),
+			vector3(a_fInnerRadius * sin(i * angle), a_fInnerRadius * cos(i * angle), 0), 
+			vector3(a_fInnerRadius * sin((i + 1) * angle), a_fInnerRadius * cos((i + 1) * angle), 0));
+		AddQuad(vector3(a_fOuterRadius * sin((i + 1) * angle), a_fOuterRadius * cos((i + 1) * angle), a_fHeight), //...and a quad for the top.
+			vector3(a_fOuterRadius * sin(i * angle), a_fOuterRadius * cos(i * angle), a_fHeight),
+			vector3(a_fInnerRadius * sin((i + 1) * angle), a_fInnerRadius * cos((i + 1) * angle), a_fHeight),
+			vector3(a_fInnerRadius * sin(i * angle), a_fInnerRadius * cos(i * angle), a_fHeight));
+	}
 
 	//Your code ends here
 	CompileObject(a_v3Color);
@@ -226,16 +239,22 @@ void MyPrimitive::GenerateSphere(float a_fRadius, int a_nSubdivisions, vector3 a
 	Init();
 
 	//Your code starts here
-	float fValue = 0.5f;
-	//3--2
-	//|  |
-	//0--1
-	vector3 point0(-fValue, -fValue, fValue); //0
-	vector3 point1(fValue, -fValue, fValue); //1
-	vector3 point2(fValue, fValue, fValue); //2
-	vector3 point3(-fValue, fValue, fValue); //3
-
-	AddQuad(point0, point1, point3, point2);
+	
+	float angle = (2 * M_PI) / a_nSubdivisions; //Angle of each subdivision
+	for (int i = 0; i < a_nSubdivisions; i++)
+	{
+		for (int j = 0; j < a_nSubdivisions; j++)
+		{
+			/*AddQuad(vector3(cos((j + 1) * angle) * cos((i + 1) * angle), sin((j + 1) * angle) * cos((i + 1) * angle), 0),
+				vector3(cos(j * angle) * cos(i * angle), sin(j * angle) * cos(i * angle), 0),
+				vector3(cos((j + 1) * angle) * cos((i + 1) * angle), sin((j + 1) * angle) * cos((i + 1) * angle), sin(i * angle)),
+				vector3(cos(j * angle) * cos(i * angle), sin(j * angle) * cos(i * angle), sin(i * angle)));*/
+			AddQuad(vector3(sin((i + 1) * angle), cos((i + 1) * angle), sin(j / a_nSubdivisions)),
+				vector3(sin(i * angle), cos(i * angle), sin(j / a_nSubdivisions)),
+				vector3(sin((i + 1) * angle), cos((i + 1) * angle), sin((j + 1) / a_nSubdivisions)),
+				vector3(sin(i * angle), cos(i * angle), sin((j + 1) / a_nSubdivisions)));
+		}
+	}
 
 	//Your code ends here
 	CompileObject(a_v3Color);
