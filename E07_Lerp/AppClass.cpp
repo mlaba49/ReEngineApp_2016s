@@ -35,8 +35,9 @@ void AppClass::InitVariables(void)
 	m_pMatrix = new matrix4[m_nObjects];
 
 	for (int i = 0; i < m_nObjects; i++) {
-		float fPercent = MapValue(static_cast<float>(nSphere), 0.0f, static_cast<float>(m_nObjects), 0.0f, 1.0f);
-		m_pSphere[i] = PrimitiveClass(1, 5, vector3(fPercent, 0.0f, 0.0f));
+		float fPercent = MapValue(static_cast<float>(i), 0.0f, static_cast<float>(m_nObjects), 0.0f, 1.0f);
+		m_pSphere[i] = PrimitiveClass();
+		//(1, 5, vector3(fPercent, 0.0f, 0.0f))
 		m_pMatrix[i] = glm::translate(vector3(fPercent, 0.0f, 0.0f));
 	}
 }
@@ -85,8 +86,8 @@ void AppClass::Display(void)
 	//m_pMeshMngr->AddGridToRenderListBasedOnCamera(m_pCameraMngr->GetCameraMode());
 	m_pMeshMngr->Render(); //renders the render list
 	for (int i = 0; i < m_nObjects; i++) {
-		m_pSphere[i]->Render();
-	}
+		m_pSphere[i].Render(m_pMatrix[i], m_pMatrix[i], m_pMatrix[i]);
+	}	
 	m_pMeshMngr->ClearRenderList(); //Reset the Render list after render
 	m_pGLSystem->GLSwapBuffers(); //Swaps the OpenGL buffers
 }
