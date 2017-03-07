@@ -39,6 +39,7 @@ void AppClass::Update(void)
 
 	//Call the arcball method
 	ArcBall();
+<<<<<<< HEAD
 
 	m_m4Orientation = glm::rotate(IDENTITY_M4, m_v3Orientation.x, REAXISX);
 	m_m4Orientation = glm::rotate(m_m4Orientation, m_v3Orientation.y, REAXISY);
@@ -47,6 +48,19 @@ void AppClass::Update(void)
 	//Set the model matrix for the first model to be the arcball
 	m_pMeshMngr->SetModelMatrix(m_m4Orientation, "Steve");
 	
+=======
+	
+	//Set the model matrix for the first model to be the arcball
+	//m_pMeshMngr->SetModelMatrix(ToMatrix4(m_qArcBall), 0);
+
+	//m_m4Steve = glm::scale(m_m4Steve, vector3(1.01f, 1.01f, 1.01f));
+	//m_m4Steve = glm::rotate(m_m4Steve, 1.0f, vector3(0.0f, 1.0f, 0.0f));
+	m_m4Steve = glm::rotate(IDENTITY_M4, m_v3Orientation.x, vector3(1.0f, 0.0f, 0.0f));
+	m_m4Steve = glm::rotate(m_m4Steve, m_v3Orientation.y, vector3(0.0f, 1.0f, 0.0f));
+	m_m4Steve = glm::rotate(m_m4Steve, m_v3Orientation.z, vector3(0.0f, 0.0f, 1.0f));
+	m_pMeshMngr->SetModelMatrix(m_m4Steve, "Steve");
+
+>>>>>>> d8eda33aa6d12cbf7e14147db00d4a8e46d8a8a7
 	//Adds all loaded instance to the render list
 	m_pMeshMngr->AddSkyboxToRenderList();
 	m_pMeshMngr->AddInstanceToRenderList("ALL");
@@ -56,6 +70,10 @@ void AppClass::Update(void)
 	//print info into the console
 	//printf("FPS: %d            \r", nFPS);//print the Frames per Second
 	//Print info on the screen
+<<<<<<< HEAD
+=======
+	m_pMeshMngr->PrintLine("");
+>>>>>>> d8eda33aa6d12cbf7e14147db00d4a8e46d8a8a7
 	m_pMeshMngr->PrintLine(m_pSystem->GetAppName(), REYELLOW);
 
 	m_pMeshMngr->Print("Selection: ");
@@ -70,7 +88,11 @@ void AppClass::Display(void)
 	//clear the screen
 	ClearScreen();
 	//Render the grid based on the camera's mode:
+<<<<<<< HEAD
 	m_pMeshMngr->AddGridToRenderListBasedOnCamera(m_pCameraMngr->GetCameraMode());
+=======
+	//m_pMeshMngr->AddGridToRenderListBasedOnCamera(m_pCameraMngr->GetCameraMode());
+>>>>>>> d8eda33aa6d12cbf7e14147db00d4a8e46d8a8a7
 	m_pMeshMngr->Render(); //renders the render list
 	m_pMeshMngr->ClearRenderList(); //Reset the Render list after render
 	m_pGLSystem->GLSwapBuffers(); //Swaps the OpenGL buffers
