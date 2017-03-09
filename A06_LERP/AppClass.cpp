@@ -43,103 +43,34 @@ void AppClass::Update(void)
 	m_pMeshMngr->PrintLine(""); //Print an empty line.
 	m_pMeshMngr->PrintLine("Timer: " + std::to_string(fTimer)); //Print the timer.
 
-	matrix4 m4SpherePosition;
-
-	vector3 v3One = vector3(-4.0f, -2.0f, 5.0f);
-	vector3 v3Two = vector3(1.0f, -2.0f, 5.0f);
-	vector3 v3Three = vector3(-3.0f, -1.0f, 3.0f);
-	vector3 v3Four = vector3(2.0f, -1.0f, 3.0f);
-	vector3 v3Five = vector3(-2.0f, 0.0f, 0.0f);
-	vector3 v3Six = vector3(3.0f, 0.0f, 0.0f);
-	vector3 v3Seven = vector3(-1.0f, 1.0f, -3.0f);
-	vector3 v3Eight = vector3(4.0f, 1.0f, -3.0f);
-	vector3 v3Nine = vector3(0.0f, 2.0f, -5.0f);
-	vector3 v3Ten = vector3(5.0f, 2.0f, -5.0f);
-	vector3 v3Eleven = vector3(1.0f, 3.0f, -5.0f);
-
-	float percentage = MapValue(fTimer, 0.0f, 0.25f, 0.0f, 1.0f);
-	if (percentage >= 0.0f && percentage < 1.0f) {
-		vector3 v3Current = glm::lerp(v3One, v3Two, percentage);
-		matrix4 m4WallEye = glm::translate(v3Current);
-		m_pMeshMngr->SetModelMatrix(m4WallEye, "WallEye");
-	}
-	if (percentage >= 1.0f && percentage < 2.0f) {
-		vector3 v3Current = glm::lerp(v3Two, v3Three, percentage - 1.0f);
-		matrix4 m4WallEye = glm::translate(v3Current);
-		m_pMeshMngr->SetModelMatrix(m4WallEye, "WallEye");
-	}
-	if (percentage >= 2.0f && percentage < 3.0f) {
-		vector3 v3Current = glm::lerp(v3Three, v3Four, percentage - 2.0f);
-		matrix4 m4WallEye = glm::translate(v3Current);
-		m_pMeshMngr->SetModelMatrix(m4WallEye, "WallEye");
-	}
-	if (percentage >= 3.0f && percentage < 4.0f) {
-		vector3 v3Current = glm::lerp(v3Four, v3Five, percentage - 3.0f);
-		matrix4 m4WallEye = glm::translate(v3Current);
-		m_pMeshMngr->SetModelMatrix(m4WallEye, "WallEye");
-	}
-	if (percentage >= 4.0f && percentage < 5.0f) {
-		vector3 v3Current = glm::lerp(v3Five, v3Six, percentage - 4.0f);
-		matrix4 m4WallEye = glm::translate(v3Current);
-		m_pMeshMngr->SetModelMatrix(m4WallEye, "WallEye");
-	}
-	if (percentage >= 5.0f && percentage < 6.0f) {
-		vector3 v3Current = glm::lerp(v3Six, v3Seven, percentage - 5.0f);
-		matrix4 m4WallEye = glm::translate(v3Current);
-		m_pMeshMngr->SetModelMatrix(m4WallEye, "WallEye");
-	}
-	if (percentage >= 6.0f && percentage < 7.0f) {
-		vector3 v3Current = glm::lerp(v3Seven, v3Eight, percentage - 6.0f);
-		matrix4 m4WallEye = glm::translate(v3Current);
-		m_pMeshMngr->SetModelMatrix(m4WallEye, "WallEye");
-	}
-	if (percentage >= 7.0f && percentage < 8.0f) {
-		vector3 v3Current = glm::lerp(v3Eight, v3Nine, percentage - 7.0f);
-		matrix4 m4WallEye = glm::translate(v3Current);
-		m_pMeshMngr->SetModelMatrix(m4WallEye, "WallEye");
-	}
-	if (percentage >= 8.0f && percentage < 9.0f) {
-		vector3 v3Current = glm::lerp(v3Nine, v3Ten, percentage - 8.0f);
-		matrix4 m4WallEye = glm::translate(v3Current);
-		m_pMeshMngr->SetModelMatrix(m4WallEye, "WallEye");
-	}
-	if (percentage >= 9.0f && percentage < 10.0f) {
-		vector3 v3Current = glm::lerp(v3Ten, v3Eleven, percentage - 9.0f);
-		matrix4 m4WallEye = glm::translate(v3Current);
-		m_pMeshMngr->SetModelMatrix(m4WallEye, "WallEye");
-	}
-	if (percentage >= 10.0f && percentage < 11.0f) {
-		vector3 v3Current = glm::lerp(v3Eleven, v3One, percentage - 10.0f);
-		matrix4 m4WallEye = glm::translate(v3Current);
-		m_pMeshMngr->SetModelMatrix(m4WallEye, "WallEye");
-	}
-	if (percentage >= 11.0f) percentage -= 11.0f;
+	vector3 vectorList[11]; //Create a list of vector positions.
+	vectorList[0] = (vector3(-4.0f, -2.0f, 5.0f)); //Create all eleven positions.
+	vectorList[1] = vector3(1.0f, -2.0f, 5.0f);
+	vectorList[2] = vector3(-3.0f, -1.0f, 3.0f);
+	vectorList[3] = vector3(2.0f, -1.0f, 3.0f);
+	vectorList[4] = vector3(-2.0f, 0.0f, 0.0f);
+	vectorList[5] = vector3(3.0f, 0.0f, 0.0f);
+	vectorList[6] = vector3(-1.0f, 1.0f, -3.0f);
+	vectorList[7] = vector3(4.0f, 1.0f, -3.0f);
+	vectorList[8] = vector3(0.0f, 2.0f, -5.0f);
+	vectorList[9] = vector3(5.0f, 2.0f, -5.0f);
+	vectorList[10] = vector3(1.0f, 3.0f, -5.0f);
+	float percentage = MapValue(fTimer, 0.0f, 0.50f, 0.0f, 1.0f); //A percentage value of how far along the guy is.
+	int perInt = floor(percentage); //This stuff makes it so that the code knows when to switch to a new target.
+	int num = perInt % 11;
+	int num2 = num + 1;
+	while (num2 >= 11) num2 -= 11;
+	int iteration = floor(percentage / 11); //The iteration number allows the guy to loop.
+	vector3 v3Current = glm::lerp(vectorList[num], vectorList[num2], percentage - (11 * iteration) - num);
+	matrix4 m4WallEye = glm::translate(v3Current);
+	m_pMeshMngr->SetModelMatrix(m4WallEye, "WallEye");
 	m_pMeshMngr->PrintLine("Percentage: " + std::to_string(percentage)); //Print the percentage.
-#pragma endregion
 
-#pragma region More Michael code to hold all the debug spheres
-	m4SpherePosition = glm::translate(v3One) * glm::scale(vector3(0.1));
-	m_pMeshMngr->AddSphereToRenderList(m4SpherePosition, REBLUE, SOLID);
-	m4SpherePosition = glm::translate(v3Two) * glm::scale(vector3(0.1));
-	m_pMeshMngr->AddSphereToRenderList(m4SpherePosition, REBLUE, SOLID);
-	m4SpherePosition = glm::translate(v3Three) * glm::scale(vector3(0.1));
-	m_pMeshMngr->AddSphereToRenderList(m4SpherePosition, REBLUE, SOLID);
-	m4SpherePosition = glm::translate(v3Four) * glm::scale(vector3(0.1));
-	m_pMeshMngr->AddSphereToRenderList(m4SpherePosition, REBLUE, SOLID);
-	m4SpherePosition = glm::translate(v3Five) * glm::scale(vector3(0.1));
-	m_pMeshMngr->AddSphereToRenderList(m4SpherePosition, REBLUE, SOLID);
-	m4SpherePosition = glm::translate(v3Six) * glm::scale(vector3(0.1));
-	m_pMeshMngr->AddSphereToRenderList(m4SpherePosition, REBLUE, SOLID);
-	m4SpherePosition = glm::translate(v3Seven) * glm::scale(vector3(0.1));
-	m_pMeshMngr->AddSphereToRenderList(m4SpherePosition, REBLUE, SOLID);
-	m4SpherePosition = glm::translate(v3Eight) * glm::scale(vector3(0.1));
-	m_pMeshMngr->AddSphereToRenderList(m4SpherePosition, REBLUE, SOLID);
-	m4SpherePosition = glm::translate(v3Nine) * glm::scale(vector3(0.1));
-	m_pMeshMngr->AddSphereToRenderList(m4SpherePosition, REBLUE, SOLID);
-	m4SpherePosition = glm::translate(v3Ten) * glm::scale(vector3(0.1));
-	m_pMeshMngr->AddSphereToRenderList(m4SpherePosition, REBLUE, SOLID);
-	m4SpherePosition = glm::translate(v3Eleven) * glm::scale(vector3(0.1));
-	m_pMeshMngr->AddSphereToRenderList(m4SpherePosition, REBLUE, SOLID);
+	matrix4 m4SpherePosition; //Create a sphere position matrix.
+	for (int i = 0; i < 11; i++) {
+		m4SpherePosition = glm::translate(vectorList[i]) * glm::scale(vector3(0.1));
+		m_pMeshMngr->AddSphereToRenderList(m4SpherePosition, REBLUE, SOLID); //Creates debug spheres for knowing where I'm supposed to be going.
+	}
 #pragma endregion
 
 #pragma region Does not need changes but feel free to change anything here
