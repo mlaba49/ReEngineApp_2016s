@@ -25,10 +25,17 @@ void AppClass::Update(void)
 	if (m_bFPC == true)
 		CameraRotation();
 
+	quaternion quatX = quaternion(cos(m_v3Orientation.x / 2), sin(m_v3Orientation.x / 2), 0, 0);
+	quaternion quatX2 = quaternion(cos(m_v3Orientation.x / 2), -sin(m_v3Orientation.x / 2), 0, 0);
+	quaternion quatY = quaternion(cos(m_v3Orientation.y / 2), 0, sin(m_v3Orientation.y / 2), 0);
+	quaternion quatY2 = quaternion(cos(m_v3Orientation.y / 2), 0, -sin(m_v3Orientation.y / 2), 0);
+	quaternion quatZ = quaternion(cos(m_v3Orientation.z / 2), 0, 0, sin(m_v3Orientation.z / 2));
+	quaternion quatZ2 = quaternion(cos(m_v3Orientation.z / 2), 0, 0, -sin(m_v3Orientation.z / 2));
+
 	//Rotation matrices
-	matrix4 rotX = glm::rotate(IDENTITY_M4, m_v3Orientation.x, REAXISX);
-	matrix4 rotY = glm::rotate(IDENTITY_M4, m_v3Orientation.y, REAXISY);
-	matrix4 rotZ = glm::rotate(IDENTITY_M4, m_v3Orientation.z, REAXISZ);
+	matrix4 rotX = quatX * vector3(0, 0, 0) * quatX2;
+	matrix4 rotY = quatY * vector3(0, 0, 0) * quatY2;
+	matrix4 rotZ = quatZ * vector3(0, 0, 0) * quatZ2;
 
 	//linear combination
 	m_mToWorld = rotX * rotY * rotZ;
