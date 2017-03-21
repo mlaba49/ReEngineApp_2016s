@@ -25,6 +25,7 @@ void AppClass::Update(void)
 	if (m_bFPC == true)
 		CameraRotation();
 
+	//My quaternions
 	quaternion quatX = quaternion(cos(m_v3Orientation.x / 2), sin(m_v3Orientation.x / 2), 0, 0);
 	quaternion quatX2 = quaternion(cos(m_v3Orientation.x / 2), -sin(m_v3Orientation.x / 2), 0, 0);
 	quaternion quatY = quaternion(cos(m_v3Orientation.y / 2), 0, sin(m_v3Orientation.y / 2), 0);
@@ -33,7 +34,10 @@ void AppClass::Update(void)
 	quaternion quatZ2 = quaternion(cos(m_v3Orientation.z / 2), 0, 0, -sin(m_v3Orientation.z / 2));
 
 	//Rotation matrices
-	matrix4 rotX = quatX * vector3(0, 0, 0) * quatX2;
+	matrix3 quatXMat = matrix3(1, 0, 0,
+		0, 1 - 2 * sin(m_v3Orientation.x / 2) * sin(m_v3Orientation.x / 2), 2 * cos(m_v3Orientation.x / 2) * sin(m_v3Orientation.x / 2),
+		0, 2 * cos(m_v3Orientation.x / 2) * sin(m_v3Orientation.x / 2), 1 - 2 * 2 * cos(m_v3Orientation.x / 2) * sin(m_v3Orientation.x / 2) * 2 * cos(m_v3Orientation.x / 2) * sin(m_v3Orientation.x / 2));
+	matrix4 rotX = quatXMat * vector3(0, 0, 0) * quatX2;
 	matrix4 rotY = quatY * vector3(0, 0, 0) * quatY2;
 	matrix4 rotZ = quatZ * vector3(0, 0, 0) * quatZ2;
 
