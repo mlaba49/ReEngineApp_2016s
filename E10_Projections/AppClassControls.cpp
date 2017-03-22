@@ -18,38 +18,38 @@ void AppClass::ProcessKeyboard(void)
 #pragma endregion
 
 	//F1 Controllers
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F1))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F1)) //COMPLETE
 	{
 		m_m4Projection = glm::perspective(45.0f, 1080.0f / 768.0f, 0.01f, 1000.0f);
 		m_m4View = glm::lookAt(glm::vec3(0.0f, 0.0f, 15.0f), glm::vec3(0.0f, 0.0f, 14.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	}
 
 	//F2 Controllers
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F2))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F2)) //COMPLETE
 	{
-		m_m4Projection = glm::perspective(45.0f, 1080.0f / 768.0f, 0.01f, 1000.0f);
-		m_m4View = glm::lookAt(glm::vec3(0.25f, 0.0f, 15.0f), glm::vec3(0.0f, 0.0f, 14.0f), glm::vec3(-0.5f, 0.0f, 0.0f));
+		m_m4Projection = glm::ortho(-10.80f, 10.80f, -25.0f, -5.0f, 0.01f, 1000.0f);
+		m_m4View = glm::lookAt(glm::vec3(5.0f, 0.0f, 15.0f), glm::vec3(0.0f, 0.0f, 14.0f), glm::vec3(-1.0f, 0.0f, 0.0f));
 	}
 
 	//F3 Controllers
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F3))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F3)) //COMPLETE
 	{
 		m_m4Projection = glm::ortho(-10.80f, 10.80f, -10.0f, 10.0f, 0.01f, 15.0f);
 		m_m4View = glm::lookAt(glm::vec3(0.0f, 0.0f, 15.0f), glm::vec3(0.0f, 0.0f, 14.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	}
 
 	//F4 Controllers
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F4))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F4)) //COMPLETE
 	{
-		m_m4Projection = glm::perspective(45.0f, 1080.0f / 768.0f, 0.01f, 1000.0f);
-		m_m4View = glm::lookAt(glm::vec3(0.0f, 0.0f, 15.0f), glm::vec3(0.0f, 0.0f, 14.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		m_m4Projection = glm::ortho(3.625f, 23.625f, -7.5f, 7.5f, 0.01f, 1000.0f);
+		m_m4View = glm::lookAt(glm::vec3(4.0f, 0.0f, 15.0f), glm::vec3(0.0f, 0.0f, 14.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	}
 
 	//F5 Controllers
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F5))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F5)) //COMPLETE
 	{
-		m_m4Projection = glm::ortho(-10.80f, 7.80f, -30.0f, 30.0f, 0.01f, 1000.0f);
-		m_m4View = glm::lookAt(glm::vec3(0.0f, 0.0f, 15.0f), glm::vec3(0.0f, 0.0f, 14.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		m_m4Projection = glm::ortho(3.625f, 23.625f, -30.0f, 30.0f, 0.01f, 1000.0f);
+		m_m4View = glm::lookAt(glm::vec3(4.0f, 0.0f, 15.0f), glm::vec3(0.0f, 0.0f, 14.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	}
 
 	//Exit the program
