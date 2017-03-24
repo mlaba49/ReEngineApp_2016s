@@ -13,7 +13,7 @@ void AppClass::InitVariables(void)
 	m_pMesh = new MyMesh();
 	
 	//Creating the Mesh points
-	m_pMesh->AddVertexPosition(vector3(-1.0f, -1.0f, 0.0f));
+	/*m_pMesh->AddVertexPosition(vector3(-1.0f, -1.0f, 0.0f));
 	m_pMesh->AddVertexColor(RERED);
 	m_pMesh->AddVertexPosition(vector3( 1.0f, -1.0f, 0.0f));
 	m_pMesh->AddVertexColor(RERED);
@@ -24,7 +24,14 @@ void AppClass::InitVariables(void)
 	m_pMesh->AddVertexPosition(vector3(1.0f, -1.0f, 0.0f));
 	m_pMesh->AddVertexColor(REBLUE);
 	m_pMesh->AddVertexPosition(vector3( 1.0f, 1.0f, 0.0f));
-	m_pMesh->AddVertexColor(REBLUE);
+	m_pMesh->AddVertexColor(REBLUE);*/
+
+	m_pMesh->AddVertexPosition(vector3(-4.0f, -4.0f, 0.0f));
+	m_pMesh->AddVertexColor(RERED);
+	m_pMesh->AddVertexPosition(vector3(4.0f, -4.0f, 0.0f));
+	m_pMesh->AddVertexColor(RERED);
+	m_pMesh->AddVertexPosition(vector3(0.0f, 4.0f, 0.0f));
+	m_pMesh->AddVertexColor(RERED);
 
 	//Compiling the mesh
 	m_pMesh->CompileOpenGL3X();
@@ -66,6 +73,7 @@ void AppClass::Display(void)
 	matrix4 m4View = m_pCameraMngr->GetViewMatrix();
 
 	m_pMesh->Render(m4Projection, m4View, IDENTITY_M4);//Rendering nObject(s)											   //clear the screen
+	m_pMesh->Render(m4Projection, m4View, glm::scale(vector3(0.5, 0.5, 1.0)));
 	
 	m_pMeshMngr->Render(); //renders the render list
 	m_pMeshMngr->ClearRenderList(); //Reset the Render list after render

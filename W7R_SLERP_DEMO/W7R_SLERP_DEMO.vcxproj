@@ -11,11 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-<<<<<<< HEAD
     <ProjectGuid>{436D17BA-132E-4863-ACC7-FECED8D567B3}</ProjectGuid>
-=======
-    <ProjectGuid>{F586EF79-529C-4737-B8BD-79C899828529}</ProjectGuid>
->>>>>>> 4bae5330ecb7a95574546bb83b9bf7f6eb13c25a
     <RootNamespace>W7R_SLERP_DEMO</RootNamespace>
     <ProjectName>W7R_SLERP_DEMO</ProjectName>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>

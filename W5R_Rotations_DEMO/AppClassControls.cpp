@@ -43,7 +43,6 @@ void AppClass::ProcessKeyboard(void)
 		m_pCameraMngr->MoveVertical(fSpeed);
 #pragma endregion
 
-<<<<<<< HEAD
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
 	{
 		m_v3Orientation = vector3(0.0, 0.0, 0.0);
@@ -59,26 +58,6 @@ void AppClass::ProcessKeyboard(void)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
 	{
 		m_v3Orientation += vector3(0.0, 0.0, 1.0);
-=======
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::X))
-	{
-		m_v3Orientation += vector3(1.0f, 0.0f, 0.0f);
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y))
-	{
-		m_v3Orientation += vector3(0.0f, 1.0f, 0.0f);
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
-	{
-		m_v3Orientation += vector3(0.0f, 0.0f, 1.0f);
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
-	{
-		m_v3Orientation = vector3(0.0f, 0.0f, 0.0f);
->>>>>>> d8eda33aa6d12cbf7e14147db00d4a8e46d8a8a7
 	}
 
 #pragma region Other Actions
