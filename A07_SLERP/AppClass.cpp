@@ -53,7 +53,7 @@ void AppClass::Update(void)
 	quaternion q3 = glm::mix(q1, q2, float(fRunTime));
 	quaternion q4 = glm::mix(q1, q2, float(fRunTime) / 28);
 	matrix4 m_m4Earth = glm::mat4_cast(q3) * glm::translate(vector3(11.0f, 0.0f, 0.0f))* glm::scale(vector3(0.524, 0.524, 0.524));
-	matrix4 m_m4Moon = glm::mat4_cast(q4) * glm::translate(vector3(2.0f, 0.0f, 0.0f)) * glm::mat4_cast(q3) * glm::translate(vector3(10.0f, 0.0f, 0.0f)) * glm::scale(vector3(0.14148, 0.14148, 0.14148));
+	matrix4 m_m4Moon = glm::mat4_cast(q4) * glm::translate(vector3(2.0f, 0.0f, 0.0f)) * glm::mat4_cast(q3) * glm::translate(vector3(11.0f, 0.0f, 0.0f)) * glm::scale(vector3(0.14148, 0.14148, 0.14148));
 	matrix4 m_m4Sun = glm::scale(vector3(5.936, 5.936, 5.936));
 
 	//Setting the matrices
@@ -127,7 +127,7 @@ void AppClass::Display(void)
 	}
 	
 	m_pMeshMngr->Render(); //renders the render list
-
+	m_pMeshMngr->ClearRenderList(); //Reset the Render list after render
 	m_pGLSystem->GLSwapBuffers(); //Swaps the OpenGL buffers
 }
 
