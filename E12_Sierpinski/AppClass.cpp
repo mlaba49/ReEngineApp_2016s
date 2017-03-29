@@ -11,27 +11,33 @@ void AppClass::InitVariables(void)
 	m_pCameraMngr->SetPositionTargetAndView(vector3(0.0f, 0.0f, 15.0f), vector3(0.0f, 0.0f, 0.0f), REAXISY);
 
 	m_pMesh = new MyMesh();
-	
-	//Creating the Mesh points
-	/*m_pMesh->AddVertexPosition(vector3(-1.0f, -1.0f, 0.0f));
-	m_pMesh->AddVertexColor(RERED);
-	m_pMesh->AddVertexPosition(vector3( 1.0f, -1.0f, 0.0f));
-	m_pMesh->AddVertexColor(RERED);
-	m_pMesh->AddVertexPosition(vector3(-1.0f,  1.0f, 0.0f));
-	m_pMesh->AddVertexColor(RERED);
-	m_pMesh->AddVertexPosition(vector3(-1.0f,  1.0f, 0.0f));
-	m_pMesh->AddVertexColor(REBLUE);
-	m_pMesh->AddVertexPosition(vector3(1.0f, -1.0f, 0.0f));
-	m_pMesh->AddVertexColor(REBLUE);
-	m_pMesh->AddVertexPosition(vector3( 1.0f, 1.0f, 0.0f));
-	m_pMesh->AddVertexColor(REBLUE);*/
 
-	m_pMesh->AddVertexPosition(vector3(-4.0f, -4.0f, 0.0f));
-	m_pMesh->AddVertexColor(RERED);
-	m_pMesh->AddVertexPosition(vector3(4.0f, -4.0f, 0.0f));
-	m_pMesh->AddVertexColor(RERED);
-	m_pMesh->AddVertexPosition(vector3(0.0f, 4.0f, 0.0f));
-	m_pMesh->AddVertexColor(RERED);
+	int power = 3;
+	double portion = 8 / pow(2, power);
+	int iMax = pow(2, power);
+	int jMax = pow(2, power);
+	bool even = false;
+	bool draw = true;
+	for (double j = 0; j < jMax; j++) {
+		for (int i = 0; i < iMax; i++) {
+			if (even == false || draw == true) {
+				m_pMesh->AddVertexPosition(vector3(i * portion - 4.0f + portion * (j / 2), -4.0f + j * portion, 0.0f));
+				m_pMesh->AddVertexColor(RERED);
+				m_pMesh->AddVertexPosition(vector3((i + 1) * portion - 4.0f + portion * (j / 2), -4.0f + j * portion, 0.0f));
+				m_pMesh->AddVertexColor(RERED);
+				m_pMesh->AddVertexPosition(vector3((i + 0.5) * portion - 4.0f + portion * (j / 2), -4.0f + (j + 1) * portion, 0.0f));
+				m_pMesh->AddVertexColor(RERED);
+				if (even == true) draw = false;
+			}
+			else draw = true;
+		}
+		iMax--;
+		if (even == false) even = true;
+		else {
+			even = false;
+			draw = true;
+		}
+	}
 
 	//Compiling the mesh
 	m_pMesh->CompileOpenGL3X();
@@ -73,7 +79,6 @@ void AppClass::Display(void)
 	matrix4 m4View = m_pCameraMngr->GetViewMatrix();
 
 	m_pMesh->Render(m4Projection, m4View, IDENTITY_M4);//Rendering nObject(s)											   //clear the screen
-	m_pMesh->Render(m4Projection, m4View, glm::scale(vector3(0.5, 0.5, 1.0)));
 	
 	m_pMeshMngr->Render(); //renders the render list
 	m_pMeshMngr->ClearRenderList(); //Reset the Render list after render
