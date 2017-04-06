@@ -41,6 +41,18 @@ void AppClass::ProcessKeyboard(void)
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 		m_pCameraMngr->MoveVertical(fSpeed);
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+	{
+		m_v3Position += vector3(-0.1f, 0.0f, 0.0f);
+		m_pBS0->SetModelMatrix(glm::translate(m_v3Position));
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+	{
+		m_v3Position += vector3(0.1f, 0.0f, 0.0f);
+		m_pBS0->SetModelMatrix(glm::translate(m_v3Position));
+	}
 #pragma endregion
 
 #pragma region Other Actions
