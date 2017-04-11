@@ -47,12 +47,44 @@ void AppClass::ProcessKeyboard(void)
 		m_v3Position += vector3(-0.1f, 0.0f, 0.0f);
 		m_pBS0->SetModelMatrix(glm::translate(m_v3Position));
 	}
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3a599dd642348e48a93f58a5cdd8a50114af0a2c
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
 		m_v3Position += vector3(0.1f, 0.0f, 0.0f);
 		m_pBS0->SetModelMatrix(glm::translate(m_v3Position));
 	}
+<<<<<<< HEAD
+=======
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+	{
+		if (!bModifier)
+		{
+			m_v3Position += vector3(0.0f, 0.1f, 0.0f);
+			m_pBS0->SetModelMatrix(glm::translate(m_v3Position));
+		}
+		else
+		{
+			m_v3Position += vector3(0.0f, 0.0f,-0.1f);
+			m_pBS0->SetModelMatrix(glm::translate(m_v3Position));
+		}
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+	{
+		if (!bModifier)
+		{
+			m_v3Position += vector3(0.0f, -0.1f, 0.0f);
+			m_pBS0->SetModelMatrix(glm::translate(m_v3Position));
+		}
+		else
+		{
+			m_v3Position += vector3(0.0f, 0.0f, 0.1f);
+			m_pBS0->SetModelMatrix(glm::translate(m_v3Position));
+		}
+	}
+>>>>>>> 3a599dd642348e48a93f58a5cdd8a50114af0a2c
 #pragma endregion
 
 #pragma region Other Actions
