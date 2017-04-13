@@ -1,14 +1,14 @@
 #pragma once
 #include "RE\ReEng.h"
 
-class MyBoundingSphereClass
+class MyBoundingBoxClass
 {
 public:
 	float m_fRadius = 0.0f;
 	vector3 m_v3Center = vector3(0.0f);
 	matrix4 m_m4ToWorld = IDENTITY_M4;
 	MeshManagerSingleton* m_pMeshMngr = nullptr;
-	MyBoundingSphereClass(std::vector<vector3> vertexList);
+	MyBoundingBoxClass(std::vector<vector3> vertexList);
 	void RenderSphere();
 private:
 	float m_fRadius = 0.0f; //radius of the sphere
@@ -59,7 +59,7 @@ public:
 	/*
 	Constructor, needs a vertex list
 	*/
-	MyBoundingSphereClass(std::vector<vector3> vertexList);
+	MyBoundingBoxClass(std::vector<vector3> vertexList);
 	/*
 	Renders the sphere based on the radius and the center in global space
 	*/
@@ -72,5 +72,5 @@ public:
 	/*
 	Will check the collision with another object
 	*/
-	bool IsColliding(MyBoundingSphereClass* a_other);
+	bool IsColliding(MyBoundingBoxClass* a_other);
 };
