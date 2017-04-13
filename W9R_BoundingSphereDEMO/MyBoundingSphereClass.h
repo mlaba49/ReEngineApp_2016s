@@ -4,14 +4,12 @@
 class MyBoundingSphereClass
 {
 public:
-<<<<<<< HEAD
 	float m_fRadius = 0.0f;
 	vector3 m_v3Center = vector3(0.0f);
 	matrix4 m_m4ToWorld = IDENTITY_M4;
 	MeshManagerSingleton* m_pMeshMngr = nullptr;
 	MyBoundingSphereClass(std::vector<vector3> vertexList);
 	void RenderSphere();
-=======
 	float m_fRadius = 0.0f; //radius of the sphere
 	vector3 m_v3CenterLocal = vector3(0.0f); //center of the sphere in local space
 	vector3 m_v3CenterGlobal = vector3(0.0f); //center of the sphere in global space
@@ -28,6 +26,5 @@ public:
 	/*
 	Sets the transform from the local to world matrix
 	*/
->>>>>>> 3a599dd642348e48a93f58a5cdd8a50114af0a2c
 	void SetModelMatrix(matrix4 a_m4ToWorld);
 };

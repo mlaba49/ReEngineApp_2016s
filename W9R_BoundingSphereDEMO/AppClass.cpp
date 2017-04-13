@@ -31,7 +31,6 @@ void AppClass::Update(void)
 	//Call the arcball method
 	ArcBall();
 
-<<<<<<< HEAD
 	matrix4 m4Translate = glm::translate(m_v3Position);
 	
 
@@ -41,14 +40,13 @@ void AppClass::Update(void)
 
 
 	m_pBS0->RenderSphere();
-=======
+
 	//set the translate to create the transform matrix
 	matrix4 m4Translate = glm::translate(m_v3Position);
 	m_pMeshMngr->SetModelMatrix(m4Translate, "Zombie"); //set the matrix to the model
 	m_pBS0->RenderSphere();//render the bounding sphere
 
 
->>>>>>> 3a599dd642348e48a93f58a5cdd8a50114af0a2c
 	//Adds all loaded instance to the render list
 	m_pMeshMngr->AddSkyboxToRenderList();
 	m_pMeshMngr->AddInstanceToRenderList("ALL");
