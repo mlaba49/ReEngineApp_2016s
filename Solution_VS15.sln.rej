@@ -1,0 +1,9 @@
+diff a/Solution_VS15.sln b/Solution_VS15.sln	(rejected hunks)
+@@ -275,6 +275,7 @@
+ 		{ECF77324-3C73-4C41-A5FA-D2291E7748E0}.Debug|x86.Build.0 = Debug|Win32
+ 		{ECF77324-3C73-4C41-A5FA-D2291E7748E0}.Release|x86.ActiveCfg = Release|Win32
+ 		{ECF77324-3C73-4C41-A5FA-D2291E7748E0}.Release|x86.Build.0 = Release|Win32
++>>>>>>> 33c6f92ad00041c57767bba6613eeab1629c05ec
+ 	EndGlobalSection
+ 	GlobalSection(SolutionProperties) = preSolution
+ 		HideSolutionNode = FALSE
