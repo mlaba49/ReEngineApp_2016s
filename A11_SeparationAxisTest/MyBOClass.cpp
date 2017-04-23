@@ -196,6 +196,25 @@ void MyBOClass::DisplayReAlligned(vector3 a_v3Color)
 	m_pMeshMngr->AddCubeToRenderList(glm::translate(IDENTITY_M4, m_v3CenterG) *
 		glm::scale(m_v3HalfWidthG * 2.0f), a_v3Color, WIRE);
 }
+vector3 MyBOClass::CrossProduct(vector3 a_vector1, vector3 a_vector2)
+{
+	vector3 result;
+	result.x = (a_vector1.y * a_vector2.z) - (a_vector1.z * a_vector2.y);
+	result.y = (a_vector1.z * a_vector2.x) - (a_vector1.x * a_vector2.z);
+	result.z = (a_vector1.x * a_vector2.y) - (a_vector1.y * a_vector2.x);
+	return result;
+}
+vector3 MyBOClass::Normalize(vector3 a_vector)
+{
+	vector3 result;
+	float length = sqrt((a_vector.x * a_vector.x) + (a_vector.y * a_vector.y) + (a_vector.z * a_vector.z));
+	if (length != 0) {
+		result.x = a_vector.x / length;
+		result.y = a_vector.y / length;
+		result.z = a_vector.z / length;
+	}
+	return result;
+}
 bool MyBOClass::IsColliding(MyBOClass* const a_pOther)
 {
 	//Get all vectors in global space
@@ -210,8 +229,8 @@ bool MyBOClass::IsColliding(MyBOClass* const a_pOther)
 	For Objects we will assume they are colliding, unless at least one of the following conditions is not met
 	*/
 	//first check the bounding sphere, if that is not colliding we can guarantee that there are no collision
-	if ((m_fRadius + a_pOther->m_fRadius) < glm::distance(m_v3CenterG, a_pOther->m_v3CenterG))
-		return false;
+	/*if ((m_fRadius + a_pOther->m_fRadius) < glm::distance(m_v3CenterG, a_pOther->m_v3CenterG))
+		return false;*/
 
 	//If the distance was smaller it might be colliding
 	//we will use the ReAligned box for the second check, notice that as long as one check return true they are 
@@ -220,22 +239,95 @@ bool MyBOClass::IsColliding(MyBOClass* const a_pOther)
 	//Note to self - this is where I should draw the planes for the SAT test.
 
 	//Check for X
-	if (m_v3MaxG.x < a_pOther->m_v3MinG.x)
+	/*if (m_v3MaxG.x < a_pOther->m_v3MinG.x) {
+		m_pMeshMngr->AddPlaneToRenderList(m_m4ToWorld, RERED);
 		return false;
-	else if (m_v3MinG.x > a_pOther->m_v3MaxG.x)
+	}
+	else if (m_v3MinG.x > a_pOther->m_v3MaxG.x) {
 		return false;
+	}*/
 
 	//Check for Y
-	else if (m_v3MaxG.y < a_pOther->m_v3MinG.y)
+	/*else if (m_v3MaxG.y < a_pOther->m_v3MinG.y) {
 		return false;
-	else if (m_v3MinG.y > a_pOther->m_v3MaxG.y)
+	}
+	else if (m_v3MinG.y > a_pOther->m_v3MaxG.y) {
 		return false;
+	}*/
 
 	//Check for Z
-	else if (m_v3MaxG.z < a_pOther->m_v3MinG.z)
+	/*else if (m_v3MaxG.z < a_pOther->m_v3MinG.z) {
 		return false;
-	else if (m_v3MinG.z > a_pOther->m_v3MaxG.z)
+	}
+	else if (m_v3MinG.z > a_pOther->m_v3MaxG.z) {
 		return false;
+	}*/
+
+	vector3 v3Corner[16];
+	//This box's corners
+	v3Corner[0] = vector3(m_v3Min.x, m_v3Min.y, m_v3Min.z);
+	v3Corner[1] = vector3(m_v3Max.x, m_v3Min.y, m_v3Min.z);
+	v3Corner[2] = vector3(m_v3Min.x, m_v3Max.y, m_v3Min.z);
+	v3Corner[3] = vector3(m_v3Max.x, m_v3Max.y, m_v3Min.z);
+
+	v3Corner[4] = vector3(m_v3Min.x, m_v3Min.y, m_v3Max.z);
+	v3Corner[5] = vector3(m_v3Max.x, m_v3Min.y, m_v3Max.z);
+	v3Corner[6] = vector3(m_v3Min.x, m_v3Max.y, m_v3Max.z);
+	v3Corner[7] = vector3(m_v3Max.x, m_v3Max.y, m_v3Max.z);
+	//The other box's corners
+	v3Corner[8] = vector3(a_pOther->m_v3Min.x, a_pOther->m_v3Min.y, a_pOther->m_v3Min.z);
+	v3Corner[9] = vector3(a_pOther->m_v3Max.x, a_pOther->m_v3Min.y, a_pOther->m_v3Min.z);
+	v3Corner[10] = vector3(a_pOther->m_v3Min.x, a_pOther->m_v3Max.y, a_pOther->m_v3Min.z);
+	v3Corner[11] = vector3(a_pOther->m_v3Max.x, a_pOther->m_v3Max.y, a_pOther->m_v3Min.z);
+	
+	v3Corner[12] = vector3(a_pOther->m_v3Min.x, a_pOther->m_v3Min.y, a_pOther->m_v3Max.z);
+	v3Corner[13] = vector3(a_pOther->m_v3Max.x, a_pOther->m_v3Min.y, a_pOther->m_v3Max.z);
+	v3Corner[14] = vector3(a_pOther->m_v3Min.x, a_pOther->m_v3Max.y, a_pOther->m_v3Max.z);
+	v3Corner[15] = vector3(a_pOther->m_v3Max.x, a_pOther->m_v3Max.y, a_pOther->m_v3Max.z);
+
+	vector3 v3Edge[24];
+	//This box's edges
+	v3Edge[0] = v3Corner[0] - v3Corner[1];
+	v3Edge[1] = v3Corner[0] - v3Corner[2];
+	v3Edge[2] = v3Corner[0] - v3Corner[4];
+	v3Edge[3] = v3Corner[1] - v3Corner[3];
+	v3Edge[4] = v3Corner[1] - v3Corner[5];
+	v3Edge[5] = v3Corner[2] - v3Corner[3];
+	v3Edge[6] = v3Corner[2] - v3Corner[6];
+	v3Edge[7] = v3Corner[3] - v3Corner[7];
+	v3Edge[8] = v3Corner[4] - v3Corner[5];
+	v3Edge[9] = v3Corner[4] - v3Corner[6];
+	v3Edge[10] = v3Corner[5] - v3Corner[7];
+	v3Edge[11] = v3Corner[6] - v3Corner[7];
+	//The other box's edges
+	v3Edge[12] = v3Corner[8] - v3Corner[9];
+	v3Edge[13] = v3Corner[8] - v3Corner[10];
+	v3Edge[14] = v3Corner[8] - v3Corner[12];
+	v3Edge[15] = v3Corner[9] - v3Corner[11];
+	v3Edge[16] = v3Corner[9] - v3Corner[13];
+	v3Edge[17] = v3Corner[10] - v3Corner[11];
+	v3Edge[18] = v3Corner[10] - v3Corner[14];
+	v3Edge[19] = v3Corner[11] - v3Corner[15];
+	v3Edge[20] = v3Corner[12] - v3Corner[13];
+	v3Edge[21] = v3Corner[12] - v3Corner[14];
+	v3Edge[22] = v3Corner[13] - v3Corner[15];
+	v3Edge[23] = v3Corner[14] - v3Corner[15];
+	
+	vector3 normalList[24];
+	for (int i = 0; i < 24; i++) {
+		normalList[i] = Normalize(v3Edge[i]);
+	}
+
+	for (int i = 0; i < 11; i++) {
+		vector3 cross1 = CrossProduct(v3Edge[i], v3Edge[i + 1]);
+		vector3 cross2 = CrossProduct(v3Edge[i + 12], v3Edge[i + 13]);
+		if (cross1 != cross2) return false; //This obviously won't work, but here I will compare the two
+		//cross products and if they don't overlap, I will return false.
+	}
+
+	vector3 cross1 = CrossProduct(v3Edge[11], v3Edge[0]);
+	vector3 cross2 = CrossProduct(v3Edge[23], v3Edge[12]);
+	if (cross1 != cross2) return false;
 
 	return true;
 }
