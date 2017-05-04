@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{58AA283E-7165-4BA4-84C9-379DFF2CD94D}</ProjectGuid>
-    <RootNamespace>00_Sandbox</RootNamespace>
-    <ProjectName>W5R_Rotations_DEMO</ProjectName>
+    <ProjectGuid>{DBB63B9E-3E43-4E40-8601-29BE9FAC2ABD}</ProjectGuid>
+    <RootNamespace>W05R_Rotations_DEMO</RootNamespace>
+    <ProjectName>W05R_Rotations_DEMO</ProjectName>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
