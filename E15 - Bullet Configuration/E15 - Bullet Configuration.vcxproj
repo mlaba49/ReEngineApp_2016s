@@ -120,14 +120,6 @@ xcopy "$(SolutionDir)include\RE\Shaders" "$(SolutionDir)_Binary\Shaders" /y</Com
   <ItemGroup>
     <ResourceCompile Include="..\res\BTO.rc" />
   </ItemGroup>
-  <ItemGroup>
-    <Library Include="Bullet\lib\BulletCollision_vs2010.lib" />
-    <Library Include="Bullet\lib\BulletCollision_vs2010_debug.lib" />
-    <Library Include="Bullet\lib\BulletDynamics_vs2010.lib" />
-    <Library Include="Bullet\lib\BulletDynamics_vs2010_debug.lib" />
-    <Library Include="Bullet\lib\LinearMath_vs2010.lib" />
-    <Library Include="Bullet\lib\LinearMath_vs2010_debug.lib" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
