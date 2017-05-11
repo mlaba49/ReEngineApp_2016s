@@ -16,7 +16,6 @@ void MyBOClass::Init(void)
 	m_v3HalfWidthG = vector3(0.0f);
 
 	m_fRadius = 0.0f;
-
 	m_pMeshMngr = MeshManagerSingleton::GetInstance();
 }
 void MyBOClass::Swap(MyBOClass& other)
@@ -143,6 +142,27 @@ MyBOClass::MyBOClass(std::vector<vector3> a_lVectorList)
 {
 	//Init the default values
 	Init();
+#pragma region Michael Code
+	uint nVertexCount = a_lVectorList.size();
+	m_v3Max = m_v3Min = a_lVectorList[0];
+
+	for (uint i = 1; i < nVertexCount; i++) {
+		if (m_v3Min.x > a_lVectorList[i].x) m_v3Min.x = a_lVectorList[i].x;
+		else if (m_v3Max.x < a_lVectorList[i].x) m_v3Max.x = a_lVectorList[i].x;
+		if (m_v3Min.y > a_lVectorList[i].y) m_v3Min.y = a_lVectorList[i].y;
+		else if (m_v3Max.y < a_lVectorList[i].y) m_v3Max.y = a_lVectorList[i].y;
+		if (m_v3Min.z > a_lVectorList[i].z) m_v3Min.z = a_lVectorList[i].z;
+		else if (m_v3Max.z < a_lVectorList[i].z) m_v3Max.z = a_lVectorList[i].z;
+	}
+
+	m_v3Center = (m_v3Max + m_v3Min) / 2.0f;
+	m_v3HalfWidth = (m_v3Max - m_v3Min) / 2.0f;
+
+	m_v3MaxG = m_v3Max;
+	m_v3MinG = m_v3Min;
+	m_v3CenterG = m_v3Center;
+	m_v3HalfWidthG = m_v3HalfWidth;
+#pragma endregion
 
 	//Complete
 }
@@ -152,6 +172,33 @@ void MyBOClass::SetModelMatrix(matrix4 a_m4ToWorld)
 	//of doing further calculations
 	if (m_m4ToWorld == a_m4ToWorld)
 		return;
-
 	m_m4ToWorld = a_m4ToWorld;
+#pragma region Michael Code
+	vector3 v3corners[8];
+	v3corners[0] = vector3(m_v3Min.x, m_v3Min.y, m_v3Min.z);
+	v3corners[1] = vector3(m_v3Max.x, m_v3Min.y, m_v3Min.z);
+	v3corners[2] = vector3(m_v3Min.x, m_v3Max.y, m_v3Min.z);
+	v3corners[3] = vector3(m_v3Max.x, m_v3Max.y, m_v3Min.z);
+	v3corners[4] = vector3(m_v3Min.x, m_v3Min.y, m_v3Max.z);
+	v3corners[5] = vector3(m_v3Max.x, m_v3Min.y, m_v3Max.z);
+	v3corners[6] = vector3(m_v3Min.x, m_v3Max.y, m_v3Max.z);
+	v3corners[7] = vector3(m_v3Max.x, m_v3Max.y, m_v3Max.z);
+
+	for (uint i = 0; i < 8; i++) {
+		v3corners[i] = vector3(m_m4ToWorld * vector4(v3corners[i], 1.0f));
+	}
+
+	m_v3MinG = m_v3MaxG = v3corners[0];
+
+	for (uint i = 1; i < 8; i++) {
+		if (m_v3MinG.x > v3corners[i].x) m_v3MinG.x = v3corners[i].x;
+		else if (m_v3MaxG.x < v3corners[i].x) m_v3MaxG.x = v3corners[i].x;
+		if (m_v3MinG.y > v3corners[i].y) m_v3MinG.y = v3corners[i].y;
+		else if (m_v3MaxG.y < v3corners[i].y) m_v3MaxG.y = v3corners[i].y;
+		if (m_v3MinG.z > v3corners[i].z) m_v3MinG.z = v3corners[i].z;
+		else if (m_v3MaxG.z < v3corners[i].z) m_v3MaxG.z = v3corners[i].z;
+	}
+	m_v3CenterG = (m_v3MaxG + m_v3MinG) / 2.0f;
+	m_v3HalfWidthG = (m_v3MaxG - m_v3MinG) / 2.0f;
+#pragma endregion
 }
