@@ -20,13 +20,21 @@ void AppClass::InitVariables(void)
 void AppClass::UpdateOrientation(void)
 {
 	static vector3 v3Orientation;
+	static float fTimer = 0.0f;
+	static uint uClock = m_pSystem->GenClock();
+	float fTotalTime = 2.5f;
+	float fPercentage = MapValue(fTimer, 0.0f, fTotalTime, 0.0f, 1.0f);
+	static quaternion q1 = glm::angleAxis(180.0f, vector3(1.0f, 1.0f, 1.0f));
+	static quaternion q2 = glm::angleAxis(0.0f, vector3(1.0f, 1.0f, 1.0f));
+	m_m4Orientation = ToMatrix4(glm::mix(q1, q2, fTimer));
 	
-	m_m4Orientation = glm::rotate(IDENTITY_M4, v3Orientation.x, REAXISX);
+	/*m_m4Orientation = glm::rotate(IDENTITY_M4, v3Orientation.x, REAXISX);
 	m_m4Orientation = glm::rotate(m_m4Orientation, v3Orientation.y, REAXISY);
-	m_m4Orientation = glm::rotate(m_m4Orientation, v3Orientation.z, REAXISZ);
+	m_m4Orientation = glm::rotate(m_m4Orientation, v3Orientation.z, REAXISZ);*/
 	
 	m_m4Orientation = m_m4Orientation * ToMatrix4(quaternion(vector3(glm::radians(1.0f), glm::radians(1.0f), glm::radians(1.0f))));
 	v3Orientation += vector3(1.0f);
+	fTimer += m_pSystem->LapClock(uClock);
 }
 
 void AppClass::Update(void)

@@ -152,6 +152,24 @@ MyBOClass::MyBOClass(std::vector<vector3> a_lVectorList)
 		return;
 
 	//Your code goes Here
+#pragma region Michael Code
+	m_v3Max = m_v3Min = a_lVectorList[0];
+	for (uint i = 1; i < nVertexCount; i++) {
+		if (m_v3Min.x > a_lVectorList[i].x) m_v3Min.x = a_lVectorList[i].x;
+		else if (m_v3Max.x < a_lVectorList[i].x) m_v3Max.x = a_lVectorList[i].x;
+		if (m_v3Min.y > a_lVectorList[i].y) m_v3Min.y = a_lVectorList[i].y;
+		else if (m_v3Max.y < a_lVectorList[i].y) m_v3Max.y = a_lVectorList[i].y;
+		if (m_v3Min.z > a_lVectorList[i].z) m_v3Min.z = a_lVectorList[i].z;
+		else if (m_v3Max.z < a_lVectorList[i].z) m_v3Max.z = a_lVectorList[i].z;
+	}
+	m_v3Center = (m_v3Max + m_v3Min) / 2.0f;
+	m_v3HalfWidth = (m_v3Max - m_v3Min) / 2.0f;
+
+	m_v3MaxG = m_v3Max;
+	m_v3MinG = m_v3Min;
+	m_v3CenterG = m_v3Center;
+	m_v3HalfWidthG = m_v3HalfWidth;
+#pragma endregion
 }
 void MyBOClass::SetModelMatrix(matrix4 a_m4ToWorld)
 {
@@ -162,4 +180,31 @@ void MyBOClass::SetModelMatrix(matrix4 a_m4ToWorld)
 
 	m_m4ToWorld = a_m4ToWorld;
 	//Your code goes here
+#pragma region Michael Code
+	vector3 v3Corners[8];
+	v3Corners[0] = vector3(m_v3Min.x, m_v3Min.y, m_v3Min.z);
+	v3Corners[1] = vector3(m_v3Max.x, m_v3Min.y, m_v3Min.z);
+	v3Corners[2] = vector3(m_v3Min.x, m_v3Max.y, m_v3Min.z);
+	v3Corners[3] = vector3(m_v3Max.x, m_v3Max.y, m_v3Min.z);
+	v3Corners[4] = vector3(m_v3Min.x, m_v3Min.y, m_v3Max.z);
+	v3Corners[5] = vector3(m_v3Max.x, m_v3Min.y, m_v3Max.z);
+	v3Corners[6] = vector3(m_v3Min.x, m_v3Max.y, m_v3Max.z);
+	v3Corners[7] = vector3(m_v3Max.x, m_v3Max.y, m_v3Max.z);
+
+	for (uint i = 0; i < 8; i++) {
+		v3Corners[i] = vector3(m_m4ToWorld * vector4(v3Corners[i], 1.0f));
+	}
+
+	m_v3MaxG = m_v3MinG = v3Corners[0];
+	for (uint i = 1; i < 8; i++) {
+		if (m_v3MinG.x > v3Corners[i].x) m_v3MinG.x = v3Corners[i].x;
+		else if (m_v3MaxG.x < v3Corners[i].x) m_v3MaxG.x = v3Corners[i].x;
+		if (m_v3MinG.y > v3Corners[i].y) m_v3MinG.y = v3Corners[i].y;
+		else if (m_v3MaxG.y < v3Corners[i].y) m_v3MaxG.y = v3Corners[i].y;
+		if (m_v3MinG.z > v3Corners[i].z) m_v3MinG.z = v3Corners[i].z;
+		else if (m_v3MaxG.z < v3Corners[i].z) m_v3MaxG.z = v3Corners[i].z;
+	}
+	m_v3CenterG = (m_v3MaxG + m_v3MinG) / 2.0f;
+	m_v3HalfWidthG = (m_v3MaxG - m_v3MinG) / 2.0f;
+#pragma endregion
 }
